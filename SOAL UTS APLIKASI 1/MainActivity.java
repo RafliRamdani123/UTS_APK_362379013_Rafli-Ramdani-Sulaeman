@@ -1,66 +1,67 @@
 package com.example.apkpiw;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.widget.*;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView imgFoto;
-    EditText etIdKaryawan;
-    Button btnAmbilFoto, btnVerifikasi;
-    Bitmap fotoBitmap = null;
-
-    private static final int REQUEST_CAMERA = 100;
+    EditText etNama;
+    RadioGroup rgTipe;
+    RadioButton rbDineIn, rbTakeaway;
+    CheckBox cbPedas, cbAlatMakan;
+    Button btnPesan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imgFoto       = findViewById(R.id.imgFoto);
-        etIdKaryawan  = findViewById(R.id.etIdKaryawan);
-        btnAmbilFoto  = findViewById(R.id.btnAmbilFoto);
-        btnVerifikasi = findViewById(R.id.btnVerifikasi);
+        // Inisialisasi komponen
+        etNama      = findViewById(R.id.etNama);
+        rgTipe      = findViewById(R.id.rgTipe);
+        rbDineIn    = findViewById(R.id.rbDineIn);
+        rbTakeaway  = findViewById(R.id.rbTakeaway);
+        cbPedas     = findViewById(R.id.cbPedas);
+        cbAlatMakan = findViewById(R.id.cbAlatMakan);
+        btnPesan    = findViewById(R.id.btnPesan);
 
-        // Implicit Intent — buka kamera bawaan HP
-        btnAmbilFoto.setOnClickListener(v -> {
-            Intent kameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(kameraIntent, REQUEST_CAMERA);
-        });
+        btnPesan.setOnClickListener(v -> {
+            String nama = etNama.getText().toString().trim();
 
-        // Explicit Intent — pindah ke DetailActivity
-        btnVerifikasi.setOnClickListener(v -> {
-            String idKaryawan = etIdKaryawan.getText().toString().trim();
-
-            if (idKaryawan.isEmpty()) {
-                etIdKaryawan.setError("ID Karyawan tidak boleh kosong!");
+            // Validasi nama kosong
+            if (nama.isEmpty()) {
+                etNama.setError("Nama tidak boleh kosong!");
+                Toast.makeText(this, "Pesanan gagal!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (fotoBitmap == null) {
-                Toast.makeText(this, "Harap ambil foto selfie dulu!", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            // Ambil tipe pesanan
+            int selectedId = rgTipe.getCheckedRadioButtonId();
+            String tipe = (selectedId == R.id.rbDineIn) ? "Dine In" : "Takeaway";
 
-            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-            intent.putExtra("ID_KARYAWAN", idKaryawan);
-            intent.putExtra("FOTO", fotoBitmap);
-            startActivity(intent);
+            // Ambil opsi tambahan
+            String opsi = "";
+            if (cbPedas.isChecked())     opsi += "• Ekstra Pedas (+Rp 2k)\n";
+            if (cbAlatMakan.isChecked()) opsi += "• Minta Alat Makan\n";
+            if (opsi.isEmpty())          opsi = "• Tidak ada\n";
+
+            // Buat pesan ringkasan
+            String pesan =
+                    "Nama    : " + nama + "\n" +
+                            "Tipe    : " + tipe + "\n" +
+                            "Opsi    :\n" + opsi;
+
+            // Tampilkan AlertDialog konfirmasi
+            new AlertDialog.Builder(this)
+                    .setTitle("Konfirmasi Pesanan")
+                    .setMessage(pesan)
+                    .setPositiveButton("PROSES", (dialog, which) -> {
+                        Toast.makeText(this, "Pesanan Diproses!", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("Batal", null)
+                    .show();
         });
-    }
-
-    // Menangkap hasil foto dari kamera
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK && data != null) {
-            Bundle extras = data.getExtras();
-            fotoBitmap = (Bitmap) extras.get("data");
-            imgFoto.setImageBitmap(fotoBitmap);
-        }
     }
 }
