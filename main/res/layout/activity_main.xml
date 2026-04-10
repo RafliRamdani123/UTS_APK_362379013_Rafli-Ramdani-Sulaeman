@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
+
+        <!-- Header ImageView -->
+        <ImageView
+            android:id="@+id/imgHeader"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:contentDescription="Header Restoran"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sebalk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Overlay teks di atas header -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEBLAK BANDUNG SELATAN"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/imgHeader"/>
+
+        <!-- Card Form -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardForm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintTop_toBottomOf="@id/imgHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Nama Pemesan -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NAMA PEMESAN"
+                    android:textSize="11sp"
+                    android:textColor="#888888"
+                    android:letterSpacing="0.1"/>
+
+                <EditText
+                    android:id="@+id/etNama"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ketik nama Anda..."
+                    android:inputType="textPersonName"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Tipe Pesanan -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TIPE PESANAN"
+                    android:textSize="11sp"
+                    android:textColor="#888888"
+                    android:letterSpacing="0.1"/>
+
+                <RadioGroup
+                    android:id="@+id/rgTipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="16dp">
+
+                    <RadioButton
+                        android:id="@+id/rbDineIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dine In"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/rbTakeaway"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Takeaway"
+                        android:layout_marginStart="16dp"/>
+
+                </RadioGroup>
+
+                <!-- Opsi Tambahan -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OPSI TAMBAHAN"
+                    android:textSize="11sp"
+                    android:textColor="#888888"
+                    android:letterSpacing="0.1"/>
+
+                <CheckBox
+                    android:id="@+id/cbPedas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ekstra Pedas (+Rp 2k)"
+                    android:layout_marginTop="4dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbAlatMakan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Minta Alat Makan"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Tombol Pesan -->
+                <Button
+                    android:id="@+id/btnPesan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PESAN SEKARANG"
+                    android:backgroundTint="#2196F3"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
